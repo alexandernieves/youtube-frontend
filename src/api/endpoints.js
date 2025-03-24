@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost/api/";
+axios.defaults.baseURL = "https://youtube-backend-production-fa3f.up.railway.app/api/";
 
 // Interceptor global para inyectar el token en cada peticion
 axios.interceptors.request.use(

@@ -55,7 +55,7 @@ export default function WatchPage() {
   const fetchVideo = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/${id}/`
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/${id}/`
       );
       setVideo(response.data);
     } catch (error) {
@@ -66,7 +66,7 @@ export default function WatchPage() {
   const fetchAllVideos = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/`
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/`
       );
       setAllVideos(response.data);
     } catch (error) {
@@ -77,7 +77,7 @@ export default function WatchPage() {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/${id}/comments/`
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/${id}/comments/`
       );
       setComments(res.data);
     } catch (error) {
@@ -96,7 +96,7 @@ export default function WatchPage() {
     }
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/${id}/comments/create/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/${id}/comments/create/`,
         { text: newComment },
         {
           headers: {
@@ -145,7 +145,7 @@ export default function WatchPage() {
     }
     try {
       await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/comments/${commentId}/update/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/comments/${commentId}/update/`,
         { text: editingText },
         {
           headers: {
@@ -170,7 +170,7 @@ export default function WatchPage() {
   const handleDeleteComment = async (commentId) => {
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/comments/${commentId}/delete/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/comments/${commentId}/delete/`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -191,7 +191,7 @@ export default function WatchPage() {
     if (!user) return alert("Debes iniciar sesión");
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/${id}/react/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/${id}/react/`,
         { reaction_type },
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -218,7 +218,7 @@ export default function WatchPage() {
     const registerViewAPI = async () => {
       try {
         await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/history/register/`,
+          `https://youtube-backend-production-fa3f.up.railway.app/api/history/register/`,
           { video_id: id },
           { headers: { Authorization: `Bearer ${token}` } }
         );

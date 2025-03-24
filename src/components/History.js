@@ -13,7 +13,7 @@ const History = ({ sidebarOpen }) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/history/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/history/`,
         {
           params: { page: pageNumber },
           headers: {

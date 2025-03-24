@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   Box,
   Toolbar,
@@ -21,6 +22,7 @@ import SideMenu from "../components/SideMenu";
 import { useAuth } from "../context/useAuth";
 import axios from "axios";
 import VideoItem from "../components/VideoItem";
+
 
 const UploadVideo = () => {
   const { user, setUser } = useAuth();
@@ -46,7 +48,7 @@ const UploadVideo = () => {
     if (!refresh_token) return null;
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/token/refresh/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/token/refresh/`,
         { refresh: refresh_token }
       );
       const { access } = response.data;
@@ -70,10 +72,10 @@ const UploadVideo = () => {
       });
       return;
     }
-
+    console.log(process.env)
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/upload/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/upload/`,
         { title, youtube_link: youtubeLink },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -92,7 +94,7 @@ const UploadVideo = () => {
         if (newAccessToken) {
           try {
             await axios.post(
-              `${process.env.NEXT_PUBLIC_API_URL}/api/upload/`,
+              `https://youtube-backend-production-fa3f.up.railway.app/api/upload/`,
               { title, youtube_link: youtubeLink },
               { headers: { Authorization: `Bearer ${newAccessToken}` } }
             );
@@ -135,7 +137,7 @@ const UploadVideo = () => {
     if (!user) return;
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/videos/`,
+        `https://youtube-backend-production-fa3f.up.railway.app/api/videos/`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }

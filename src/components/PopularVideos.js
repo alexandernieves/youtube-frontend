@@ -11,7 +11,7 @@ const PopularVideos = ({ sidebarOpen }) => {
     const fetchPopularVideos = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/popular/`
+          `https://youtube-backend-production-fa3f.up.railway.app/api/popular/`
         );
         setPopularVideos(response.data);
       } catch (error) {

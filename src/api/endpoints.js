@@ -1,8 +1,8 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://youtube-backend-production-fa3f.up.railway.app/api/";
+axios.defaults.baseURL =
+  "https://youtube-backend-production-fa3f.up.railway.app/api/";
 
-// Interceptor global para inyectar el token en cada peticion
 axios.interceptors.request.use(
   (config) => {
     const storedUser = localStorage.getItem("user");
@@ -17,10 +17,26 @@ axios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// funcion para login
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      console.warn("⚠️ Token expirado. Cerrando sesión automáticamente...");
+
+      localStorage.removeItem("user");
+
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const login = async (username, password) => {
   try {
     const response = await axios.post("login/", { username, password });
+
+    localStorage.setItem("user", JSON.stringify(response.data));
+
     return response.data;
   } catch (error) {
     console.error("Login failed:", error);
@@ -28,18 +44,15 @@ export const login = async (username, password) => {
   }
 };
 
-// funcion para logout
-export const logout = async () => {
+export const logout = () => {
   try {
-    const response = await axios.post("logout/");
-    return response.data;
+    localStorage.removeItem("user");
+    window.location.href = "/login";
   } catch (error) {
     console.error("Logout failed:", error);
-    return null;
   }
 };
 
-// funcion para registrar un usuario
 export const register = async (username, email, password) => {
   try {
     const response = await axios.post("register/", {
@@ -54,21 +67,16 @@ export const register = async (username, email, password) => {
   }
 };
 
-// funcion para obtener el usuario autenticado
 export const authenticatedUser = async () => {
   try {
     const response = await axios.get("authenticated/");
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 401) {
-      return null;
-    }
     console.error("Error fetching authenticated user:", error);
     return null;
   }
 };
 
-// funcion para obtener notas
 export const getNotes = async () => {
   try {
     const response = await axios.get("todos/");
@@ -79,7 +87,6 @@ export const getNotes = async () => {
   }
 };
 
-// funcion para subir un video
 export const uploadVideo = async (title, youtubeLink) => {
   try {
     const response = await axios.post("upload/", {
@@ -93,7 +100,6 @@ export const uploadVideo = async (title, youtubeLink) => {
   }
 };
 
-// funcion para obtener videos
 export const getVideos = async () => {
   try {
     const response = await axios.get("videos/");
@@ -104,7 +110,6 @@ export const getVideos = async () => {
   }
 };
 
-// funcion para refrescar token
 export const refreshToken = async (refreshTokenValue) => {
   try {
     const response = await axios.post("token/refresh/", {
